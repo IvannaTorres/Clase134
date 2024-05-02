@@ -44,24 +44,4 @@ emo_code_url = {
 
 def predict(text):
 
-    predicted_emotion=""
-    predicted_emotion_img_url=""
     
-    if  text!="":
-        sentence = []
-        sentence.append(text)
-
-        sequences = tokenizer.texts_to_sequences(sentence)
-
-        padded = pad_sequences(
-            sequences, maxlen=max_length, padding=padding_type, truncating=trunc_type
-        )
-        testing_padded = np.array(padded)
-
-        predicted_class_label = np.argmax(model.predict(testing_padded), axis=1)        
-        print(predicted_class_label)   
-        for key, value in emo_code_url.items():
-            if value[0]==predicted_class_label:
-                predicted_emotion_img_url=value[1]
-                predicted_emotion=key
-        return predicted_emotion, predicted_emotion_img_url
