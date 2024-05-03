@@ -29,19 +29,27 @@ def home():
 def predict_emotion():
     
     # Obtener el texto ingresado del requerimiento POST.
-    
+    input_text = request.json.get("text")
     
     if not input_text:
         # Respuesta para enviar si input_text está indefinido.
-        
+        response = {
+            "status" : "error",
+            "message" : "Por favor ingresa algun texto para predecir la emocion!"
+        }
+        return jsonify(response)
     else:  
-        
-        
+        predicted_emotion, predicted_emotion_img_url = predict(input_text)
         # Respuesta para enviar si input_text no está indefinido.
-        
-
+        response = {
+            "status" : "success",
+            "data" : {
+                "predicted_emotion":predicted_emotion,
+                "predicted_emotion_img_url":predicted_emotion_img_url
+            }
+        }
         # Enviar respuesta.         
-        
+        return jsonify(response)
 #funcion que lee el archivo csv con el hsitorial de predicciones y lo devuelve en un arreglo
 def show_entry():
     day_entry_list = pd.read_csv("/content/Clase134/static/assets/data_files/data_entry.csv")
